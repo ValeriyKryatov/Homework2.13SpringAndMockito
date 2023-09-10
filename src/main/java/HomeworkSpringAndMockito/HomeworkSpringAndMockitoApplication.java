@@ -9,5 +9,4 @@ public class HomeworkSpringAndMockitoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HomeworkSpringAndMockitoApplication.class, args);
 	}
-
 }
