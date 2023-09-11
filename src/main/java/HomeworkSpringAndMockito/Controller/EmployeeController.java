@@ -31,13 +31,15 @@ public class EmployeeController {
     }
 
     @GetMapping("/get")
-    public Employee get(@RequestParam String firstName, @RequestParam String lastName) {
+    public Employee get(@RequestParam String firstName,
+                        @RequestParam String lastName) {
         check(firstName, lastName);
         return service.findEmployee(firstName, lastName);
     }
 
     @GetMapping("/remove")
-    public boolean remove(@RequestParam String firstName, @RequestParam String lastName) {
+    public boolean remove(@RequestParam String firstName,
+                          @RequestParam String lastName) {
         check(firstName, lastName);
         return service.removeEmployee(firstName, lastName);
     }

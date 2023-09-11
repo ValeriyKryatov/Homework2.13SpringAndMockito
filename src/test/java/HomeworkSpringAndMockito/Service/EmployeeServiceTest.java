@@ -16,7 +16,7 @@ class EmployeeServiceTest {
     EmployeeService employeeService = new EmployeeService();
 
     @Test
-    void testAdd() {
+    void testAddEmployeeShouldAddedEmployeeWithItsOwnPropertiesAndWithCapitalLetter() {
         employeeService.addEmployee("test", "test2", 10_000, 1);
 
         Collection<Employee> allEmployees = employeeService.getAll();
@@ -29,7 +29,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void testAddWhenStorageIsFull() {
+    void testAddEmployeesShouldReturnExceptionWhenListOfEmployeesIsFull() {
         for (int i = 0; i < 10; i++) {
             employeeService.addEmployee("test_" + i, "test_test_" + i, 0d, 0);
         }
@@ -37,14 +37,13 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void testAddWhenAlreadyExists() {
+    void testAddEmployeesShouldReturnExceptionThatSuchAnEmployeeHasAlreadyBeenAdded() {
         employeeService.addEmployee("test", "test", 0, 0);
         assertThrows(EmployeeAlreadyAddedException.class, () -> employeeService.addEmployee("test", "test", 0, 0));
-
     }
 
     @Test
-    void testFind() {
+    void testFindEmployeeShouldReturnEmployeeWhichWeAdded() {
         employeeService.addEmployee("test", "testtest", 10_000, 1);
         var actual = employeeService.findEmployee("test", "testtest");
         assertEquals("Test", actual.getFirstName());
@@ -54,12 +53,12 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void testFindWhenNotExist() {
+    void testFindEmployeeWhichNotExistShouldReturnException() {
         assertThrows(EmployeeNotFoundException.class, () -> employeeService.findEmployee("test", "testtest"));
     }
 
     @Test
-    void testRemove() {
+    void testRemoveEmployeeIfEmployeeAddedShouldReturnExceptionIfEmployeeNotAdded() {
         employeeService.addEmployee("test", "testtest", 10, 1);
         assertEquals(1, employeeService.getAll().size());
         assertTrue(employeeService.removeEmployee("test", "testtest"));
@@ -67,7 +66,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void testGetAll() {
+    void testGetAllShouldReturnAllEmployeesWithCorrectPropertyValues() {
         employeeService.addEmployee("test_1", "test_test_1", 100, 1);
         employeeService.addEmployee("test_2", "test_test_2", -100, 1);
         employeeService.addEmployee("test_3", "test_test_3", 100, -1);

@@ -40,39 +40,49 @@ class DepartmentServiceTest {
     }
 
     @Test
-    void testSum() {
+    void testSumSalaryInDepartmentShouldReturnWhatSumSalaryInDepartmentTrue() {
         Assertions.assertThat(departmentService.sum(1)).isEqualTo(100d);
     }
 
     @Test
-    void testMaxSalary() {
+    void testMaxSalaryInDepartmentShouldReturnWhatMaxSalaryInDepartmentTrue() {
         Assertions.assertThat(departmentService.maxSalary(1)).isEqualTo(60d);
     }
 
     @Test
-    void testMinSalary() {
+    void testMinSalaryInDepartmentShouldReturnWhatMinSalaryInDepartmentTrue() {
         Assertions.assertThat(departmentService.minSalary(3)).isEqualTo(5d);
     }
 
     @Test
-    void testWhenEmployeesIsEmpty() {
+    void testWhenEmployeesWithMaxSalaryIsEmptyShouldReturnException() {
+        when(employeeService.getAll()).thenReturn(Collections.emptyList());
+        Assertions.assertThatThrownBy(() -> departmentService.maxSalary(1))
+                .isInstanceOf(EmployeeNotFoundException.class);
+    }
+
+    @Test
+    void testWhenEmployeesWithMinSalaryIsEmptyShouldReturnException() {
         when(employeeService.getAll()).thenReturn(Collections.emptyList());
         Assertions.assertThatThrownBy(() -> departmentService.minSalary(1))
                 .isInstanceOf(EmployeeNotFoundException.class);
-        Assertions.assertThatThrownBy(() -> departmentService.maxSalary(1))
-                .isInstanceOf(EmployeeNotFoundException.class);
+    }
+
+    @Test
+    void testSumSalaryEmployeesInDepartmentWhenEmployeesAreAbsentShouldReturnZero() {
+        when(employeeService.getAll()).thenReturn(Collections.emptyList());
         Assertions.assertThat(departmentService.sum(1)).isEqualTo(0d);
     }
 
     @Test
-    void testAllByDept() {
+    void testAllByDepartmentShouldReturnThatTheSpecifiedDepartmentCorrectNumberEmployees() {
         var employees = departmentService.findAllByDept(4);
         Assertions.assertThat(employees.size()).isEqualTo(1);
         Assertions.assertThat(employees.get(0)).isEqualTo(new Employee("Сергей", "Павлов", 50, 4));
     }
 
     @Test
-    void testGroupByDept() {
+    void testGroupByDepartmentShouldReturnQuantityDepartmentWithTheirEmployees() {
         Map<Integer, List<Employee>> actual = departmentService.groupByDept();
         Assertions.assertThat(actual.keySet()).containsExactly(1, 2, 3, 4);
         Assertions.assertThat(actual.get(1)).containsExactly(
